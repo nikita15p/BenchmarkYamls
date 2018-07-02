@@ -1,0 +1,32 @@
+apiVersion: apps/v1beta2
+kind: ReplicaSet
+metadata:
+  name: tc21
+  labels:
+    app: foo
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: foo
+  template:
+    metadata:
+      name: tc21
+      labels:
+        app: foo
+        schedulerName: poseidon
+    spec:
+      schedulerName: poseidon
+      containers:
+      - name: testcase2task1
+        image: "nginx:1.11.1-alpine"
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: basepodkey
+                operator: In
+                values:
+                - basepodvalue
+            topologyKey: kubernetes.io/hostname

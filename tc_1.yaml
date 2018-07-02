@@ -1,0 +1,22 @@
+apiVersion: apps/v1beta2
+kind: ReplicaSet
+metadata:
+  name: pod
+  labels:
+    key: value
+spec:
+  replicas: 200
+  selector:
+    matchLabels:
+      key: value
+  template:
+    metadata:
+      name: basepod
+      labels:
+        key: value
+        schedulerName: poseidon
+    spec:
+      schedulerName: poseidon
+      containers:
+      - name: benchmark
+        image: "nginx:1.11.1-alpine"
